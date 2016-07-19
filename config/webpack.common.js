@@ -173,8 +173,48 @@ module.exports = {
         test: /\.html$/,
         loader: 'raw-loader',
         exclude: [helpers.root('src/index.html')]
-      }
-
+      },
+      
+      /**
+       * File loader support for *.eot
+       * 
+       * See: https://github.com/webpack/file-loader
+       */
+      {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file-loader'
+      },
+      
+      /**
+       * URL loader support for *.woff and *woff2
+       * 
+       * See: https://github.com/webpack/url-loader
+       */
+      {
+        test: /\.(woff2?)$/,
+        loader: 'url?prefix=font/&limit=5000'
+      },
+      
+      /**
+       * URL loader support for *.ttf
+       * 
+       * See: https://github.com/webpack/url-loader
+       */
+      {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=application/octet-stream'
+      },
+      
+      /**
+       * URL loader support for *.svg
+       * 
+       * See: https://github.com/webpack/url-loader
+       */
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=image/svg+xml'
+      },
+      
     ]
 
   },
