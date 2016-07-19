@@ -13,6 +13,8 @@ export class UserService {
   private http: Http;
   private appState: AppState;
   
+  host: string = 'http://weekly.ninja4826.me';
+  
   // private teamService: TeamService;
   // private projectService: ProjectService;
   // private surveyService: SurveyService;
@@ -41,49 +43,9 @@ export class UserService {
     // this.ghostTeamService = ghostTeamService;
   }
   
-  // login(username: string, password: string): Observable<User> {
-  //   return this.http.post('/login', { username, password }, this.jsonHeader(this.getLoginHeader(username, pass)))
-  //     .map((res: Response) => {
-  //       let body = res.json();
-  //       if (body.token) {
-  //         this.token = body.token;
-  //         this.appState.set('token', body.token);
-  //       }
-  //       if (body.user) {
-  //         // this.user = new User(body.user);
-  //         // return this.user;
-  //         let userObserv = this.userFromJSON(body.user);
-  //         return userObserv.do((u) => {
-  //           this.user = u;
-  //         });
-  //       }
-  //       return null;
-  //     });
-  // }
-  
-  // newUser(username: string, email: string, password: string): Observable<User> {
-  //   return this.http.post('/users/new', { username, email, password }, this.jsonHeader())
-  //     .map((res: Response) => {
-  //       let body = res.json();
-  //       if (body.token) {
-  //         this.token = body.token;
-  //         this.appState.set('token', body.token);
-  //       }
-  //       if (body.user) {
-  //         // this.user = new User(body.user);
-  //         // return this.user;
-  //         // let userObserv = this.userFromJSON(body.user);
-  //         // return userObserv.do((u) => {
-  //         //   this.user = u;
-  //         // });
-  //         return this.userFromJSON(body.user);
-  //       }
-  //       return null;
-  //     });
-  // }
-  
   login(username: string, password: string): void {
-    let loginReq = this.http.post('/api/login', null, this.jsonHeader(this.getLoginHeader(username, password)));
+    console.log('url:', `${this.host}/login`);
+    let loginReq = this.http.post(`${this.host}/login`, null, this.jsonHeader(this.getLoginHeader(username, password)));
     // loginReq.subscribe(this.decodeUser);
     // console.log(loginReq);
     loginReq.map(this.decodeUser).subscribe((l: LoginRes) => {
@@ -100,7 +62,7 @@ export class UserService {
   }
   
   newUser(username: string, email: string, password: string): void {
-    let newUserReq = this.http.post('/api/users/new', { username, email, password }, this.jsonHeader());
+    let newUserReq = this.http.post(`${this.host}/users/new`, { username, email, password }, this.jsonHeader());
     newUserReq.map(this.decodeUser).subscribe((l: LoginRes) => {
       this.token = l.token;
       console.log('decoded:', l);
