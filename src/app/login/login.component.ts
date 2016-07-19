@@ -19,7 +19,7 @@ export class LoginComponent {
   ngOnInit() {
     this.userService.userEmitter.subscribe((user) => {
       this.user = user;
-      console.log('got user!', user);
+      console.log('login got user!', user);
     });
   }
   

@@ -153,15 +153,19 @@ export class UserService {
     if (!this.token) {
       return req;
     }
-    req.headers.append('Bearer', this.appState.get('token'));
+    console.log(req);
+    req.headers.append('Authorization', this.appState.get('token'));
     return req;
   }
   
   private jsonHeader(req?: RequestOptions): RequestOptions {
-    if (!req) {
-      req = new RequestOptions();
+    if (req) {
+      req.headers.append('Content-Type', 'application/json');
+    } else {
+      req = new RequestOptions({
+        headers: new Headers({ 'Content-Type': 'application/json' })
+      });
     }
-    req.headers.append('Content-Type', 'application/json');
     return req;
   }
   
