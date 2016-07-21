@@ -5,6 +5,7 @@ import { RouterConfig } from '@angular/router';
 
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
+import { TeamComponent } from './team';
 // import { SignupComponent } from './signup';
 
 import { DataResolver } from './app.resolver';
@@ -30,6 +31,7 @@ export const routes: RouterConfig = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'team', component: TeamComponent },
   // { path: 'signup', component: SignupComponent },
 ];
 

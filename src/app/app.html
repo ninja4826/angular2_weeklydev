@@ -13,6 +13,9 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul *ngIf="user" class="nav navbar-nav">
           <!-- TODO: Insert routerLink lists to Team, Project, etc -->
+          <li>
+            <a routerLink="/team">Team</a>
+          </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li *ngIf="!user">
