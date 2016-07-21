@@ -20,7 +20,7 @@ export class HomeComponent {
   
   ngOnInit() {
     if (!this.appService.user) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     }
     this.user = this.appService.user;
   }
