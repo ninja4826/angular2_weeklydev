@@ -16,12 +16,6 @@ export class UserService {
   // private projectService: ProjectService;
   // private ghostTeamService: GhostTeamService;
   
-  private _user: User;
-  
-  userEmitter: EventEmitter<User> = new EventEmitter<User>();
-  errorEmitter: EventEmitter<string> = new EventEmitter<string>();
-  token: string;
-  
   constructor(
     http: Http,
     appService: AppService,
@@ -40,20 +34,20 @@ export class UserService {
   login(username: string, password: string): void {
     let loginReq = this.http.post(`${this.appService.host}/login`, null, this.appService.jsonHeader(this.getLoginHeader(username, password)));
     loginReq.map(this.decodeUser).subscribe((l: LoginRes) => {
-      this.token = l.token;
+      this.appService.token = l.token;
       console.log('decoded:', l);
       
-      this.user = new User(l.user);
+      this.appService.user = new User(l.user);
     });
   }
   
   newUser(username: string, email: string, password: string): void {
     let newUserReq = this.http.post(`${this.appService.host}/users/new`, { username, email, password }, this.appService.jsonHeader());
     newUserReq.map(this.decodeUser).subscribe((l: LoginRes) => {
-      this.token = l.token;
+      this.appService.token = l.token;
       console.log('decoded:', l);
       
-      this.user = new User(l.user);
+      this.appService.user = new User(l.user);
     });
   }
   
@@ -72,16 +66,6 @@ export class UserService {
     return new RequestOptions({
       headers
     });
-  }
-  
-  get user(): User {
-    return this._user;
-  }
-  
-  set user(v: User) {
-    this._user = v;
-    this.userEmitter.emit(this._user);
-    this.appService.user = this._user;
   }
 }
 

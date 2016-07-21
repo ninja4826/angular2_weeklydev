@@ -4,6 +4,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from './app.service';
+import { User } from './user';
 
 /*
  * App Component
@@ -12,12 +13,16 @@ import { AppService } from './app.service';
 @Component({
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
-  styles: [require('./app.style.css')],
+  styles: [
+    require('./app.style.css')
+  ],
   template: require('./app.html')
 })
 export class App {
   private router: Router;
   private appService: AppService;
+  
+  user: User;
 
   constructor(router: Router, appService: AppService) {
     this.router = router;
@@ -26,10 +31,18 @@ export class App {
 
   ngOnInit() {
     this.appService.signin.subscribe(() => {
-      console.log('this:', this);
-      console.log('router:', this.router);
       this.router.navigate(['/home']);
     });
+    
+    this.appService.userEmitter.subscribe((user: User) => {
+      this.user = user;
+    });
+  }
+  
+  signout() {
+    this.appService.token = undefined;
+    this.appService.user = undefined;
+    this.router.navigate(['/login']);
   }
 }
 
