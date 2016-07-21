@@ -9,7 +9,6 @@ import { IUser, User } from '../user';
 export class TeamService {
   private http: Http;
   private appService: AppService;
-  host: string = 'http://weekly.ninja4826.me';
   
   constructor(http: Http, appService: AppService) {
     this.http = http;
@@ -18,7 +17,7 @@ export class TeamService {
   
   getTeams(teamIDs: string[]): Observable<Team[]> {
     return Observable.create((observer) => {
-      this.http.get(`${this.host}/users/me/teams`, this.appService.authHeader())
+      this.http.get(`${this.appService.host}/users/me/teams`, this.appService.authHeader())
         .map((res: Response) => {
           let body = res.json();
           let team_len = body.length;

@@ -2,22 +2,18 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { AppState } from '../app.service';
+import { AppService } from '../app.service';
 import { ITeam, Team, TeamService } from '../team';
 // import { IProject, Project, ProjectService } from '../project';
-// import { Survey, SurveyService } from '../survey';
 // import { IGhostTeam, GhostTeam, GhostTeamService } from '../ghostTeam';
 
 @Injectable()
 export class UserService {
   private http: Http;
-  private appState: AppState;
-  
-  host: string = 'http://weekly.ninja4826.me';
+  private appService: AppService;
   
   private teamService: TeamService;
   // private projectService: ProjectService;
-  // private surveyService: SurveyService;
   // private ghostTeamService: GhostTeamService;
   
   private _user: User;
@@ -28,24 +24,21 @@ export class UserService {
   
   constructor(
     http: Http,
-    appState: AppState,
+    appService: AppService,
     teamService: TeamService,
     // projectService: ProjectService,
-    // surveyService: SurveyService,
     // ghostTeamService: GhostTeamService
   ) {
     this.http = http;
-    this.appState = appState;
+    this.appService = appService;
     
     this.teamService = teamService;
     // this.projectService = projectService;
-    // this.surveyService = surveyService;
     // this.ghostTeamService = ghostTeamService;
   }
   
   login(username: string, password: string): void {
-    console.log('url:', `${this.host}/login`);
-    let loginReq = this.http.post(`${this.host}/login`, null, this.jsonHeader(this.getLoginHeader(username, password)));
+    let loginReq = this.http.post(`${this.appService.host}/login`, null, this.appService.jsonHeader(this.getLoginHeader(username, password)));
     loginReq.map(this.decodeUser).subscribe((l: LoginRes) => {
       this.token = l.token;
       console.log('decoded:', l);
@@ -55,7 +48,7 @@ export class UserService {
   }
   
   newUser(username: string, email: string, password: string): void {
-    let newUserReq = this.http.post(`${this.host}/users/new`, { username, email, password }, this.jsonHeader());
+    let newUserReq = this.http.post(`${this.appService.host}/users/new`, { username, email, password }, this.appService.jsonHeader());
     newUserReq.map(this.decodeUser).subscribe((l: LoginRes) => {
       this.token = l.token;
       console.log('decoded:', l);
@@ -81,29 +74,6 @@ export class UserService {
     });
   }
   
-  private authHeader(req?: RequestOptions): RequestOptions {
-    if (!req) {
-      req = new RequestOptions();
-    }
-    if (!this.token) {
-      return req;
-    }
-    console.log(req);
-    req.headers.append('Authorization', this.appState.get('token'));
-    return req;
-  }
-  
-  private jsonHeader(req?: RequestOptions): RequestOptions {
-    if (req) {
-      req.headers.append('Content-Type', 'application/json');
-    } else {
-      req = new RequestOptions({
-        headers: new Headers({ 'Content-Type': 'application/json' })
-      });
-    }
-    return req;
-  }
-  
   get user(): User {
     return this._user;
   }
@@ -111,6 +81,7 @@ export class UserService {
   set user(v: User) {
     this._user = v;
     this.userEmitter.emit(this._user);
+    this.appService.user = this._user;
   }
 }
 
