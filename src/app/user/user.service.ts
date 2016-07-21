@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { AppState } from '../app.service';
-// import { Team, TeamService } from '../team';
+import { Team, TeamService } from '../team';
 // import { Project, ProjectService } from '../project';
 // import { Survey, SurveyService } from '../survey';
 // import { GhostTeam, GhostTeamService } from '../ghostTeam';
@@ -15,7 +15,7 @@ export class UserService {
   
   host: string = 'http://weekly.ninja4826.me';
   
-  // private teamService: TeamService;
+  private teamService: TeamService;
   // private projectService: ProjectService;
   // private surveyService: SurveyService;
   // private ghostTeamService: GhostTeamService;
@@ -29,7 +29,7 @@ export class UserService {
   constructor(
     http: Http,
     appState: AppState,
-    // teamService: TeamService,
+    teamService: TeamService,
     // projectService: ProjectService,
     // surveyService: SurveyService,
     // ghostTeamService: GhostTeamService
@@ -37,7 +37,7 @@ export class UserService {
     this.http = http;
     this.appState = appState;
     
-    // this.teamService = teamService;
+    this.teamService = teamService;
     // this.projectService = projectService;
     // this.surveyService = surveyService;
     // this.ghostTeamService = ghostTeamService;
@@ -81,21 +81,45 @@ export class UserService {
     return <LoginRes>res.json();
   }
   
-  userFromJSON(user: IUser): Observable<User> {
+  userFromJSON(user: IUser, populate: boolean = false): Observable<User> {
     return Observable.create((observer) => {
       let newUser: User = {
         id: user.id,
         userId: user.userId,
         email: user.email,
         username: user.username,
-        access: user.access
+        access: user.access,
+        team: []
       };
       console.log('new user:', newUser);
       console.log(observer);
       // TODO: Retrieve related observables
-      
-      // TODO: Remove once other services have been created
-      observer.next(newUser);
+      if (populate) {
+        let relations = new UserRelations();
+        
+        relations.done.subscribe(() => {
+          observer.next(newUser);
+        });
+        
+        relations.project = true;
+        relations.ghostTeams = true;
+        
+        this.teamService.getTeams(user.team).subscribe(teams => {
+          newUser.team = teams;
+          relations.team = true;
+        });
+        // this.projectService.getProjects(user.project).subscribe(projects => {
+        //   newUser.project = projects;
+        //   relations.project = true;
+        // });
+        // this.ghostTeamService.getGhostTeams(user.ghostTeams).subscribe(ghostTeams => {
+        //   newUser.ghostTeams = ghostTeams;
+        //   relations.ghostTeams = true;
+        // });
+        
+      } else {
+        observer.next(newUser);
+      }
     });
   }
   
@@ -163,7 +187,7 @@ export interface User {
   email: string;
   username: string;
   access: string[];
-  // team: Team[];
+  team: Team[];
   // project: Project[];
   // ghostTeams: GhostTeam[];
 }

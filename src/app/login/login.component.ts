@@ -9,8 +9,8 @@ export class LoginComponent {
   userService: UserService;
   user: User;
   
-  username: string;
-  password: string;
+  username: string = 'ninja4826';
+  password: string = 'asdfasdf';
   
   constructor(userService: UserService) {
     this.userService = userService;

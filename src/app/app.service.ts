@@ -1,5 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
+import { Headers, RequestOptions } from '@angular/http';
 import { HmrState } from 'angular2-hmr';
+
+import { User } from './user';
 
 @Injectable()
 export class AppState {
@@ -35,5 +38,48 @@ export class AppState {
   _clone(object) {
     // simple object clone
     return JSON.parse(JSON.stringify( object ));
+  }
+}
+
+@Injectable()
+export class AppService {
+  token: string;
+  private _user: User;
+  userEmitter: EventEmitter<User> = new EventEmitter<User>();
+  
+  constructor() {
+    
+  }
+  
+  authHeader(req?: RequestOptions): RequestOptions {
+    if (!req) {
+      req = new RequestOptions();
+    }
+    if (!this.token) {
+      return req;
+    }
+    console.log(req);
+    req.headers.append('Authorization', this.token);
+    return req;
+  }
+  
+  jsonHeader(req?: RequestOptions): RequestOptions {
+    if (req) {
+      req.headers.append('Content-Type', 'application/json');
+    } else {
+      req = new RequestOptions({
+        headers: new Headers({ 'Content-Type': 'application/json' })
+      });
+    }
+    return req;
+  }
+  
+  get user(): User {
+    return this._user;
+  }
+  
+  set user(v: User) {
+    this._user = v;
+    this.userEmitter.emit(this._user);
   }
 }

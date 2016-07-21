@@ -9,9 +9,9 @@ export class SignupComponent {
   userService: UserService;
   user: User;
   
-  username: string;
-  email: string;
-  password: string;
+  username: string = 'testuser';
+  email: string = 'hueske.steam@gmail.com';
+  password: string = 'asdfasdf';
   
   constructor(userService: UserService) {
     this.userService = userService;
