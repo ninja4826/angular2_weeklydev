@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { AppService } from '../app.service';
-import { User } from '../user';
+import { IUser, User } from '../user';
 
 @Injectable()
 export class TeamService {
@@ -28,9 +28,28 @@ export class TeamService {
 }
 
 export interface ITeam {
-  
+  // owner: IUser | string;
+  // manager: IUser[] | string[];
+  // backend: IUser[] | string[];
+  // frontend: IUser[] | string[];
+  owner: IUser;
+  manager: IUser[];
+  backend: IUser[];
+  frontend: IUser[];
 }
 
-export interface Team {
+export class Team {
+  owner: User;
+  manager: User[] = [];
+  backend: User[] = [];
+  frontend: User[] = [];
   
+  constructor(team: ITeam) {
+    if (typeof team !== 'string') {
+      this.owner = new User(team.owner);
+      this.manager = team.manager.map(m => new User(m));
+      this.backend = team.backend.map(b => new User(b));
+      this.frontend = team.frontend.map(f => new User(f));
+    }
+  }
 }

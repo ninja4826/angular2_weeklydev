@@ -3,10 +3,10 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { AppState } from '../app.service';
-import { Team, TeamService } from '../team';
-// import { Project, ProjectService } from '../project';
+import { ITeam, Team, TeamService } from '../team';
+// import { IProject, Project, ProjectService } from '../project';
 // import { Survey, SurveyService } from '../survey';
-// import { GhostTeam, GhostTeamService } from '../ghostTeam';
+// import { IGhostTeam, GhostTeam, GhostTeamService } from '../ghostTeam';
 
 @Injectable()
 export class UserService {
@@ -46,19 +46,12 @@ export class UserService {
   login(username: string, password: string): void {
     console.log('url:', `${this.host}/login`);
     let loginReq = this.http.post(`${this.host}/login`, null, this.jsonHeader(this.getLoginHeader(username, password)));
-    // loginReq.subscribe(this.decodeUser);
-    // console.log(loginReq);
     loginReq.map(this.decodeUser).subscribe((l: LoginRes) => {
       this.token = l.token;
-      // console.log('token in service:', this.token);
       console.log('decoded:', l);
       
-      this.userFromJSON(l.user).subscribe((user: User) => {
-        console.log('user in service:', user);
-        this.user = user;
-      })
+      this.user = new User(l.user);
     });
-    // loginReq.do(this.decodeUser).subscribe();
   }
   
   newUser(username: string, email: string, password: string): void {
@@ -66,11 +59,9 @@ export class UserService {
     newUserReq.map(this.decodeUser).subscribe((l: LoginRes) => {
       this.token = l.token;
       console.log('decoded:', l);
-      this.userFromJSON(l.user).subscribe((user: User) => {
-        console.log('user in service:', user);
-        this.user = user;
-      })
-    })
+      
+      this.user = new User(l.user);
+    });
   }
   
   private decodeUser(res: Response): LoginRes {
@@ -79,48 +70,6 @@ export class UserService {
     }
     
     return <LoginRes>res.json();
-  }
-  
-  userFromJSON(user: IUser, populate: boolean = false): Observable<User> {
-    return Observable.create((observer) => {
-      let newUser: User = {
-        id: user.id,
-        userId: user.userId,
-        email: user.email,
-        username: user.username,
-        access: user.access,
-        team: []
-      };
-      console.log('new user:', newUser);
-      console.log(observer);
-      // TODO: Retrieve related observables
-      if (populate) {
-        let relations = new UserRelations();
-        
-        relations.done.subscribe(() => {
-          observer.next(newUser);
-        });
-        
-        relations.project = true;
-        relations.ghostTeams = true;
-        
-        this.teamService.getTeams(user.team).subscribe(teams => {
-          newUser.team = teams;
-          relations.team = true;
-        });
-        // this.projectService.getProjects(user.project).subscribe(projects => {
-        //   newUser.project = projects;
-        //   relations.project = true;
-        // });
-        // this.ghostTeamService.getGhostTeams(user.ghostTeams).subscribe(ghostTeams => {
-        //   newUser.ghostTeams = ghostTeams;
-        //   relations.ghostTeams = true;
-        // });
-        
-      } else {
-        observer.next(newUser);
-      }
-    });
   }
   
   private getLoginHeader(username: string, pass: string): RequestOptions {
@@ -176,65 +125,31 @@ export interface IUser {
   email: string;
   username: string;
   access: string[];
-  team: string[];
-  project: string[];
-  ghostTeams: string[];
+  team: ITeam[];
+  // project: IProject[];
+  // ghostTeams: IGhostTeam[];
 }
 
-export interface User {
+export class User {
   id: string;
   userId: string;
   email: string;
   username: string;
   access: string[];
-  team: Team[];
+  team: Team[] = [];
   // project: Project[];
   // ghostTeams: GhostTeam[];
-}
-
-class UserRelations {
-  private _team: boolean = false;
-  private _project: boolean = false;
-  private _survey: boolean = false;
-  private _ghostTeams: boolean = false;
   
-  done: EventEmitter<any> = new EventEmitter<any>();
-  constructor() {
-    
-  }
-  
-  private emit(): void {
-    if (this.team &&
-      this.project &&
-      this.survey &&
-      this.ghostTeams
-    ) {
-      this.done.emit(null);
+  constructor(user: IUser) {
+    if (typeof user !== 'string') {
+      this.id = user.id;
+      this.userId = user.userId;
+      this.email = user.email;
+      this.username = user.username;
+      this.access = user.access;
+      this.team = user.team.map(t => new Team(t));
+      // this.project = user.project.map(p => new Project(p));
+      // this.ghostTeams = user.ghostTeams.map(gT => new GhostTeam(gT));
     }
-  }
-  
-  get team(): boolean { return this._team; }
-  get project(): boolean { return this._project };
-  get survey(): boolean { return this._survey };
-  get ghostTeams(): boolean { return this._ghostTeams; }
-  
-  set team(v: boolean) {
-    this._team = v;
-    this.emit();
-  }
-  
-  set project(v: boolean) {
-    this._project = v;
-    this.emit();
-  }
-  
-  set survey(v: boolean) {
-    this._survey = v;
-    this.emit();
-  }
-  
-  set ghostTeams(v: boolean) {
-    this._ghostTeams = v;
-    this.emit();
   }
 }
