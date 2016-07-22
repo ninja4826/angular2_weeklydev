@@ -46,7 +46,12 @@ export class SurveyComponent {
   
   get frontend(): boolean { return this.survey.role.has('frontend'); }
   get backend(): boolean { return this.survey.role.has('backend'); }
-  get manager(): boolean { return this.survey.role.has('manager'); }
+  get manager(): boolean {
+    if (this.survey.role.has('backend') !== this.survey.project_manager) {
+      this.manager = this.survey.project_manager;
+    }
+    return this.survey.project_manager;
+  }
   
   set frontend(v: boolean) {
     if (v) {
@@ -67,8 +72,10 @@ export class SurveyComponent {
   set manager(v: boolean) {
     if (v) {
       this.survey.role.add('manager');
+      this.survey.project_manager = true;
     } else {
       this.survey.role.delete('manager');
+      this.survey.project_manager = false;
     }
   }
 }

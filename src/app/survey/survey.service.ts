@@ -40,7 +40,7 @@ export class SurveyService {
       delete survey.user_id;
     }
     console.log('sending:', survey);
-    return this.http.post(`${this.appService.host}/survey`, this.appService.headers(true, true))
+    return this.http.post(`${this.appService.host}/survey`, survey, this.appService.headers(true, true))
       .map((res: Response) => {
         let body = res.json();
         console.log('body:', body);
