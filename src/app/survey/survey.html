@@ -1,4 +1,21 @@
 <div class="col-lg-10">
-  <pre *ngIf="survey">{{ survey | json }}</pre>
+  <pre *ngIf="survey">{{ survey.toObject() | json }}</pre>
   
+  <div class="checkbox">
+    <label>
+      <input [(ngModel)]="frontend" type="checkbox" value="">Frontend
+    </label>
+  </div>
+  <div class="checkbox">
+    <label>
+      <input [(ngModel)]="backend" type="checkbox" value="">Backend
+    </label>
+  </div>
+  <div class="checkbox">
+    <label>
+      <input [(ngModel)]="manager" type="checkbox" value="">Manager
+    </label>
+  </div>
+  
+  <button type="button" class="btn btn-success" (click)="submit()">Submit</button>
 </div>

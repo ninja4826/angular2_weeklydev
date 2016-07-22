@@ -13,23 +13,6 @@ export class SurveyService {
     this.appService = appService;
   }
   
-  updateSurvey(survey: ISurvey): Observable<Survey> {
-    if (survey.id) {
-      delete survey.id;
-    }
-    if (survey.user_id) {
-      delete survey.user_id;
-    }
-    return this.http.post(`${this.appService.host}/survey`, this.appService.headers(true, true))
-      .map((res: Response) => {
-        let body = res.json();
-        if ('statusCode' in body) {
-          return null;
-        }
-        return new Survey(<ISurvey>body);
-      });
-  }
-  
   getSurvey(): Observable<Survey> {
     return this.http.get(`${this.appService.host}/survey`, this.appService.headers(false, true))
       .map((res: Response) => {
@@ -48,6 +31,25 @@ export class SurveyService {
         }
       });
   }
+  
+  updateSurvey(survey: ISurvey): Observable<Survey> {
+    if (survey.id) {
+      delete survey.id;
+    }
+    if (survey.user_id) {
+      delete survey.user_id;
+    }
+    console.log('sending:', survey);
+    return this.http.post(`${this.appService.host}/survey`, this.appService.headers(true, true))
+      .map((res: Response) => {
+        let body = res.json();
+        console.log('body:', body);
+        if ('statusCode' in body) {
+          return null;
+        }
+        return new Survey(<ISurvey>body);
+      });
+  }
 }
 
 export interface ISurvey {
@@ -60,10 +62,10 @@ export interface ISurvey {
   timezone: number;
 }
 
-export class Survey implements ISurvey {
+export class Survey {
   private _id: string;
   private _user_id: string;
-  private _role: string[];
+  private _role: Set<string> = new Set<string>();
   private _project_manager: boolean;
   private _skill_level: number;
   private _project_size: number;
@@ -76,7 +78,8 @@ export class Survey implements ISurvey {
     if (survey.user_id) {
       this._user_id = survey.user_id;
     }
-    this.role = survey.role;
+    console.log('survey:', survey);
+    this.role = new Set<string>(survey.role);
     this.project_manager = survey.project_manager;
     this.skill_level = survey.skill_level;
     this.project_size = survey.project_size;
@@ -85,7 +88,7 @@ export class Survey implements ISurvey {
   
   get id(): string { return this._id; }
   get user_id(): string { return this._user_id; }
-  get role(): string[] { return this._role; }
+  get role(): Set<string> { return this._role; }
   get project_manager(): boolean { return this._project_manager; }
   get skill_level(): number { return this._skill_level; }
   get project_size(): number { return this._project_size; }
@@ -94,8 +97,12 @@ export class Survey implements ISurvey {
   set id(v: string) {}
   set user_id(v: string) {}
   
-  set role(v: string[]) {
-    this._role = v.filter(r => ['frontend', 'backend', 'manager'].indexOf(r) !== -1);
+  set role(v: Set<string>) {
+    for (let role of Array.from(v.values())) {
+      if (['frontend', 'backend', 'manager'].indexOf(role) !== -1) {
+        this._role.add(role);
+      }
+    }
   }
   
   set project_manager(v: boolean) {
@@ -116,7 +123,7 @@ export class Survey implements ISurvey {
   
   toObject(): ISurvey {
     let survey: ISurvey = {
-      role: this.role,
+      role: Array.from(this.role),
       project_manager: this.project_manager,
       skill_level: this.skill_level,
       project_size: this.project_size,

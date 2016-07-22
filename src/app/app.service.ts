@@ -22,29 +22,6 @@ export class AppService {
     console.log('API URL:', this._host);
   }
   
-  // authHeader(req?: RequestOptions): RequestOptions {
-  //   if (!req) {
-  //     req = new RequestOptions();
-  //   }
-  //   if (!this.token) {
-  //     return req;
-  //   }
-  //   console.log(req);
-  //   req.headers.append('Authorization', this.token);
-  //   return req;
-  // }
-  
-  // jsonHeader(req?: RequestOptions): RequestOptions {
-  //   if (req) {
-  //     req.headers.append('Content-Type', 'application/json');
-  //   } else {
-  //     req = new RequestOptions({
-  //       headers: new Headers({ 'Content-Type': 'application/json' })
-  //     });
-  //   }
-  //   return req;
-  // }
-  
   headers(json: boolean, auth: boolean, req?: RequestOptions): RequestOptions {
     if (!req) {
       req = new RequestOptions({ headers: new Headers({}) });
@@ -57,8 +34,8 @@ export class AppService {
     if (auth && this.token) {
       req.headers.append('Authorization', this.token);
     }
-    
-    return req
+    console.log('req:', req);
+    return req;
   }
   
   get user(): User {
