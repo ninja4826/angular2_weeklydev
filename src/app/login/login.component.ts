@@ -11,9 +11,9 @@ export class LoginComponent {
   userService: UserService;
   user: User;
   
-  username: string = 'ninja4826';
+  username: string = '';
   email: string = '';
-  password: string = 'asdfasdf';
+  password: string = '';
   
   signupMode: boolean = false;
   
