@@ -6,7 +6,7 @@ import { User } from './user';
 @Injectable()
 export class AppService {
   
-  host: string = 'http://weekly.ninja4826.me';
+  private _host: string = 'localhost:1337';
   
   token: string;
   private _user: User;
@@ -15,7 +15,10 @@ export class AppService {
   signin: EventEmitter<any> = new EventEmitter<any>();
   
   constructor() {
-    
+    let el: any = document.querySelector('meta[name="host_url"]');
+    if (el) {
+      this._host = <string>el.getAttribute('content');
+    }
   }
   
   authHeader(req?: RequestOptions): RequestOptions {
@@ -53,5 +56,9 @@ export class AppService {
       this._user = v;
     }
     this.userEmitter.emit(this._user);
+  }
+  
+  get host(): string {
+    return this._host;
   }
 }

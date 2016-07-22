@@ -13,7 +13,7 @@
  * Will not prefix the publicPath on href (href attributes are added by default
  *
  */
-module.exports = {
+var head_tags = {
   link: [
     /** <link> tags for "apple-touch-icon" (AKA Web Clips). **/
     { rel: "apple-touch-icon", sizes: "57x57", href: "/assets/icon/apple-icon-57x57.png" },
@@ -40,6 +40,13 @@ module.exports = {
   meta: [
     { name: "msapplication-TileColor", content: "#00bcd4" },
     { name: "msapplication-TileImage", content: "/assets/icon/ms-icon-144x144.png", "=content": true },
-    { name: "theme-color", content: "#00bcd4" }
+    { name: "theme-color", content: "#00bcd4" },
+    // { name: 'host_url', content: process.env.HOSTURL },
   ]
 };
+
+if (process.env.HOSTURL) {
+  head_tags.meta.push({ name: 'host_url', content: process.env.HOSTURL });
+}
+
+module.exports = head_tags;
