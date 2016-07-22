@@ -6,7 +6,7 @@ import { User } from './user';
 @Injectable()
 export class AppService {
   
-  private _host: string = 'http://localhost:1337';
+  private _host: string = 'http://localhost:1337/v1';
   
   token: string;
   private _user: User;
@@ -16,7 +16,7 @@ export class AppService {
   
   constructor() {
     if (process.env.API_URL) {
-      this._host = `http://${process.env.API_URL}`;
+      this._host = `http://${process.env.API_URL}/v1`;
       // this._host = process.env.API_URL;
     }
     console.log('API URL:', this._host);
