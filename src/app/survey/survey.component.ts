@@ -78,4 +78,9 @@ export class SurveyComponent {
       this.survey.project_manager = false;
     }
   }
+  
+  get skill_level(): number { return this.survey.skill_level; }
+  set skill_level(v: string) {
+    this.survey.skill_level = +v;
+  }
 }
