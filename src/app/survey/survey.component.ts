@@ -79,7 +79,7 @@ export class SurveyComponent {
     }
   }
   
-  get skill_level(): number { return this.survey.skill_level; }
+  get skill_level(): string { return this.survey.skill_level+''; }
   set skill_level(v: string) {
     this.survey.skill_level = +v;
   }
