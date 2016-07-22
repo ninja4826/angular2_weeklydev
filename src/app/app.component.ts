@@ -2,7 +2,7 @@
  * Angular 2 decorators and services
  */
 import { Component, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { AppService } from './app.service';
 import { User } from './user';
 
@@ -36,6 +36,15 @@ export class App {
     
     this.appService.userEmitter.subscribe((user: User) => {
       this.user = user;
+    });
+    
+    this.router.events.subscribe((e: NavigationStart) => {
+      if (e instanceof NavigationStart) {
+        console.log('navigation start:', e.url);
+        if (!this.user && e.url !== '/login') {
+          this.router.navigate(['/login']);
+        }
+      }
     });
   }
   

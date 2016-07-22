@@ -17,7 +17,7 @@ export class TeamService {
   
   getTeams(teamIDs: string[]): Observable<Team[]> {
     return Observable.create((observer) => {
-      this.http.get(`${this.appService.host}/users/me/teams`, this.appService.authHeader())
+      this.http.get(`${this.appService.host}/users/me/teams`, this.appService.headers(false, true))
         .map((res: Response) => {
           let body = res.json();
           let team_len = body.length;

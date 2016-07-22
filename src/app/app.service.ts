@@ -22,27 +22,43 @@ export class AppService {
     console.log('API URL:', this._host);
   }
   
-  authHeader(req?: RequestOptions): RequestOptions {
-    if (!req) {
-      req = new RequestOptions();
-    }
-    if (!this.token) {
-      return req;
-    }
-    console.log(req);
-    req.headers.append('Authorization', this.token);
-    return req;
-  }
+  // authHeader(req?: RequestOptions): RequestOptions {
+  //   if (!req) {
+  //     req = new RequestOptions();
+  //   }
+  //   if (!this.token) {
+  //     return req;
+  //   }
+  //   console.log(req);
+  //   req.headers.append('Authorization', this.token);
+  //   return req;
+  // }
   
-  jsonHeader(req?: RequestOptions): RequestOptions {
-    if (req) {
-      req.headers.append('Content-Type', 'application/json');
-    } else {
-      req = new RequestOptions({
-        headers: new Headers({ 'Content-Type': 'application/json' })
-      });
+  // jsonHeader(req?: RequestOptions): RequestOptions {
+  //   if (req) {
+  //     req.headers.append('Content-Type', 'application/json');
+  //   } else {
+  //     req = new RequestOptions({
+  //       headers: new Headers({ 'Content-Type': 'application/json' })
+  //     });
+  //   }
+  //   return req;
+  // }
+  
+  headers(json: boolean, auth: boolean, req?: RequestOptions): RequestOptions {
+    if (!req) {
+      req = new RequestOptions({ headers: new Headers({}) });
     }
-    return req;
+    
+    if (json) {
+      req.headers.append('Content-Type', 'application/json');
+    }
+    
+    if (auth && this.token) {
+      req.headers.append('Authorization', this.token);
+    }
+    
+    return req
   }
   
   get user(): User {
@@ -50,13 +66,15 @@ export class AppService {
   }
   
   set user(v: User) {
+    let firstSignin: boolean = false;
     if (!this._user) {
-      this._user = v;
-      this.signin.emit(null);
-    } else {
-      this._user = v;
+      firstSignin = true;
     }
+    this._user = v;
     this.userEmitter.emit(this._user);
+    if (firstSignin) {
+      this.signin.emit(null);
+    }
   }
   
   get host(): string {

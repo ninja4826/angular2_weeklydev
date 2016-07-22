@@ -18,4 +18,10 @@ export class SurveyComponent {
     this.appService = appService;
     this.surveyService = surveyService;
   }
+  
+  ngOnInit() {
+    this.surveyService.getSurvey().subscribe((survey: Survey) => {
+      this.survey = survey;
+    });
+  }
 }

@@ -33,7 +33,7 @@ export class UserService {
   
   login(username: string, password: string): void {
     console.log('appService.host:', this.appService.host);
-    let loginReq = this.http.post(`${this.appService.host}/login`, null, this.appService.jsonHeader(this.getLoginHeader(username, password)));
+    let loginReq = this.http.post(`${this.appService.host}/login`, null, this.appService.headers(true, false, this.getLoginHeader(username, password)));
     loginReq.map(this.decodeUser).subscribe((l: LoginRes) => {
       this.appService.token = l.token;
       console.log('decoded:', l);
@@ -43,7 +43,7 @@ export class UserService {
   }
   
   newUser(username: string, email: string, password: string): void {
-    let newUserReq = this.http.post(`${this.appService.host}/users/new`, { username, email, password }, this.appService.jsonHeader());
+    let newUserReq = this.http.post(`${this.appService.host}/users/new`, { username, email, password }, this.appService.headers(true, false));
     newUserReq.map(this.decodeUser).subscribe((l: LoginRes) => {
       this.appService.token = l.token;
       console.log('decoded:', l);
