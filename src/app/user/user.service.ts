@@ -32,6 +32,7 @@ export class UserService {
   }
   
   login(username: string, password: string): void {
+    console.log('appService.host:', this.appService.host);
     let loginReq = this.http.post(`${this.appService.host}/login`, null, this.appService.jsonHeader(this.getLoginHeader(username, password)));
     loginReq.map(this.decodeUser).subscribe((l: LoginRes) => {
       this.appService.token = l.token;

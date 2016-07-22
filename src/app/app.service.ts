@@ -6,7 +6,7 @@ import { User } from './user';
 @Injectable()
 export class AppService {
   
-  private _host: string = 'localhost:1337';
+  private _host: string = 'http://localhost:1337';
   
   token: string;
   private _user: User;
@@ -15,10 +15,11 @@ export class AppService {
   signin: EventEmitter<any> = new EventEmitter<any>();
   
   constructor() {
-    let el: any = document.querySelector('meta[name="host_url"]');
-    if (el) {
-      this._host = <string>el.getAttribute('content');
+    if (process.env.API_URL) {
+      this._host = `http://${process.env.API_URL}`;
+      // this._host = process.env.API_URL;
     }
+    console.log('API URL:', this._host);
   }
   
   authHeader(req?: RequestOptions): RequestOptions {
