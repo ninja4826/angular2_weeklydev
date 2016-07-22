@@ -27,17 +27,13 @@ export class TeamService {
 }
 
 export interface ITeam {
-  // owner: IUser | string;
-  // manager: IUser[] | string[];
-  // backend: IUser[] | string[];
-  // frontend: IUser[] | string[];
   owner: IUser;
   manager: IUser[];
   backend: IUser[];
   frontend: IUser[];
 }
 
-export class Team {
+export class Team implements ITeam {
   owner: User;
   manager: User[] = [];
   backend: User[] = [];

@@ -86,7 +86,7 @@ export interface IUser {
   // ghostTeams: IGhostTeam[];
 }
 
-export class User {
+export class User implements IUser {
   id: string;
   userId: string;
   email: string;
