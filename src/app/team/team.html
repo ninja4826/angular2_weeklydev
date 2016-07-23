@@ -1,3 +1,4 @@
 <div class="col-lg-10">
-  <pre>{{ team | json }}</pre>
+  <pre *ngIf="team">{{ team | json }}</pre>
+  <h3 *ngIf="!team">You don't have a team yet.</h3>
 </div>
