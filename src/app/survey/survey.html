@@ -1,3 +1,11 @@
-<pre *ngIf="survey">{{ survey.toObject() | json }}</pre>
-<survey-form [survey]="survey"></survey-form>
+<alert [listener]="successEmitter" context="success" [dismissable]="true" [countdown]="3000" [fade]="1000" [fixed]="true">
+  <strong>Success!</strong>
+  Survey has been successfully updated
+</alert>
+<alert [listener]="errorEmitter" context="danger" [dismissable]="true" [countdown]="10000" [fade]="1000" [fixed]="true">
+  <strong>Uh oh!</strong>
+  Something went wrong.
+</alert>
+<!--<pre *ngIf="survey">{{ survey.toObject() | json }}</pre>-->
+<survey-form *ngIf="showSurvey" [survey]="survey"></survey-form>
 <button (click)="submit()" type="button" class="btn btn-success">Submit</button>

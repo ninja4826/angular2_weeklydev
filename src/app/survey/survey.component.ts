@@ -1,20 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 
 import { AppService } from '../app.service';
 import { ISurvey, Survey, SurveyService } from './survey.service';
 import { User } from '../user';
 import { SurveyFormComponent } from './survey_form';
+import { AlertComponent } from '../alert';
 
 @Component({
   selector: 'survey',
   template: require('./survey.html'),
-  directives: [SurveyFormComponent]
+  directives: [SurveyFormComponent, AlertComponent]
 })
 export class SurveyComponent {
   appService: AppService;
   surveyService: SurveyService;
   
   survey: Survey;
+  showSurvey: boolean = false;
+  
+  successEmitter: EventEmitter<any> = new EventEmitter<any>();
+  errorEmitter: EventEmitter<any> = new EventEmitter<any>();
   
   constructor(appService: AppService, surveyService: SurveyService) {
     this.appService = appService;
@@ -33,15 +38,24 @@ export class SurveyComponent {
   
   ngOnInit() {
     this.surveyService.getSurvey().subscribe((survey: Survey) => {
-      console.log('old survey:', this.survey);
-      this.survey = survey;
-      console.log('got survey:', this.survey);
+      if (survey) {
+        console.log('old survey:', this.survey);
+        this.survey = survey;
+        console.log('got survey:', this.survey);
+      }
+      this.showSurvey = true;
     });
   }
   
   submit(): void {
     this.surveyService.updateSurvey(this.survey.toObject()).subscribe((survey: Survey) => {
-      this.survey = survey;
+      // this.survey = survey;
+      if (survey) {
+        this.survey = survey;
+        this.successEmitter.next(null);
+      } else {
+        this.errorEmitter.next(null);
+      }
     });
   }
 }
