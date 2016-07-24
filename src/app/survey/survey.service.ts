@@ -63,27 +63,29 @@ export interface ISurvey {
 }
 
 export class Survey {
-  private _id: string;
-  private _user_id: string;
+  private _id: string = '';
+  private _user_id: string = '';
   private _role: Set<string> = new Set<string>();
-  private _project_manager: boolean;
-  private _skill_level: number;
-  private _project_size: number;
-  private _timezone: number;
+  private _project_manager: boolean = false;
+  private _skill_level: number = 0;
+  private _project_size: number = 5;
+  private _timezone: number = new Date().getTimezoneOffset() / -60;
   
-  constructor(survey: ISurvey) {
-    if (survey.id) {
-      this._id = survey.id;
+  constructor(survey?: ISurvey) {
+    if (survey) {
+      if (survey.id) {
+        this._id = survey.id;
+      }
+      if (survey.user_id) {
+        this._user_id = survey.user_id;
+      }
+      console.log('survey:', survey);
+      this.role = new Set<string>(survey.role);
+      this.project_manager = survey.project_manager;
+      this.skill_level = survey.skill_level;
+      this.project_size = survey.project_size;
+      this.timezone = survey.timezone;
     }
-    if (survey.user_id) {
-      this._user_id = survey.user_id;
-    }
-    console.log('survey:', survey);
-    this.role = new Set<string>(survey.role);
-    this.project_manager = survey.project_manager;
-    this.skill_level = survey.skill_level;
-    this.project_size = survey.project_size;
-    this.timezone = survey.timezone;
   }
   
   get id(): string { return this._id; }

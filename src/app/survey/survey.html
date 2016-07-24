@@ -1,26 +1,2 @@
-<div class="col-lg-10">
-  <pre *ngIf="survey">{{ survey.toObject() | json }}</pre>
-  
-  <div class="checkbox">
-    <label>
-      <input [(ngModel)]="frontend" type="checkbox" value="">Frontend
-    </label>
-  </div>
-  <div class="checkbox">
-    <label>
-      <input [(ngModel)]="backend" type="checkbox" value="">Backend
-    </label>
-  </div>
-  <div class="checkbox">
-    <label>
-      <input [(ngModel)]="manager" type="checkbox" value="">Manager
-    </label>
-  </div>
-  <div class="form-group">
-    <label for="skill_level">Skill Level</label>
-    <select [(ngModel)]="skill_level" class="form-control">
-      <option *ngFor="let n of [1,2,3,4,5]" [value]="n">{{ n }}</option>
-    </select>
-  </div>
-  <button type="button" class="btn btn-success" (click)="submit()">Submit</button>
-</div>
+<pre *ngIf="survey">{{ survey.toObject() | json }}</pre>
+<survey-form [survey]="survey"></survey-form>
