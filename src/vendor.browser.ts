@@ -29,3 +29,5 @@ if ('production' === ENV) {
   require('angular2-hmr');
 
 }
+
+import 'bootstrap-loader';

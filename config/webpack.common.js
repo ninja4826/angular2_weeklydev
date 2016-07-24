@@ -215,6 +215,15 @@ module.exports = {
         loader: 'url?limit=10000&mimetype=image/svg+xml'
       },
       
+      /**
+       * SASS support for *.scss
+       * 
+       * See: https://github.com/jtangelder/sass-loader
+       */
+      {
+        test: /\.scss/,
+        loaders: ['to-string-loader', 'css-loader', 'sass-loader']
+      }
     ]
 
   },
