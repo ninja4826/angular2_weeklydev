@@ -32,9 +32,9 @@ export class App {
   }
 
   ngOnInit() {
-    this.appService.signin.subscribe(() => {
-      this.router.navigate(['/home']);
-    });
+    // this.appService.signin.subscribe(() => {
+    //   this.router.navigate(['/home']);
+    // });
     
     this.appService.userEmitter.subscribe((user: User) => {
       this.user = user;
@@ -54,7 +54,7 @@ export class App {
         console.log('route:', routeName);
         this.header = routeName;
         console.log('navigation start:', url);
-        if (!this.user && e.url !== '/login') {
+        if (!this.user && e.url !== '/login' && e.url !== '/signup') {
           this.router.navigate(['/login']);
         }
       }
