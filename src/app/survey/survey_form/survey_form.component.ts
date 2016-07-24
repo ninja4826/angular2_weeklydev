@@ -3,14 +3,12 @@ import { Component, Input } from '@angular/core';
 // import { AppService } from '../app.service';
 import { Survey } from '../survey.service';
 import { User } from '../../user';
-import { PositivePipe } from './positive.pipe';
 import { CounterComponent } from '../../counter';
 
 @Component({
   selector: 'survey-form',
   template: require('./survey_form.html'),
-  directives: [CounterComponent],
-  pipes: [PositivePipe]
+  directives: [CounterComponent]
 })
 export class SurveyFormComponent {
   // appService: AppService;
@@ -18,32 +16,12 @@ export class SurveyFormComponent {
   @Input() survey: Survey;
   
   constructor() {
-    
+    console.log($);
   }
   
   ngOnInit() {
     console.log('this survey:', this.survey);
   }
-  
-  // range(first: number, last: number): number[] {
-  //   let arr = [];
-  //   for (let i = first; i <= last; i++) {
-  //     arr.push(i);
-  //   }
-  //   return arr;
-  // }
-  
-  // counter(prop: string, pos: boolean): void {
-  //   switch (prop) {
-  //     case 'skill_level':
-  //       if (pos) {
-  //         this.survey.skill_level++;
-  //       } else {
-  //         this.survey.skill_level--;
-  //       }
-  //       break;
-  //   }
-  // }
   
   get frontend(): boolean { return this.survey.role.has('frontend'); }
   get backend(): boolean { return this.survey.role.has('backend'); }
@@ -80,18 +58,13 @@ export class SurveyFormComponent {
     }
   }
   
-  // get skill_level(): string { return this.survey.skill_level+''; }
-  // set skill_level(v: string) {
-  //   this.survey.skill_level = +v;
-  // }
-  
-  // get project_size(): string { return this.survey.project_size+''; }
-  // set project_size(v: string) {
-  //   this.survey.project_size = +v;
-  // }
-  
-  // get timezone(): string { return this.survey.timezone+''; }
-  // set timezone(v: string) {
-  //   this.survey.timezone = +v;
-  // }
+  displayTimezone(val: number): string {
+    if (val > 0) {
+      return 'UTC+'+val;
+    } else if (val < 0) {
+      return 'UTC'+val;
+    } else {
+      return 'UTC';
+    }
+  }
 }
