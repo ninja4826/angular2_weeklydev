@@ -2,7 +2,8 @@
  * Angular 2 decorators and services
  */
 import { Component, ViewEncapsulation } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { Router, Route, NavigationStart } from '@angular/router';
+import { routes } from './app.routes';
 import { AppService } from './app.service';
 import { User } from './user';
 
@@ -23,6 +24,7 @@ export class App {
   private appService: AppService;
   
   user: User;
+  header: string = '';
 
   constructor(router: Router, appService: AppService) {
     this.router = router;
@@ -40,7 +42,18 @@ export class App {
     
     this.router.events.subscribe((e: NavigationStart) => {
       if (e instanceof NavigationStart) {
-        console.log('navigation start:', e.url);
+        // let url = this.router.routerState.snapshot.url;
+        // console.log(this.router);
+        let url: string = e.url.split('?')[0].split('/')[1];
+        let route = routes.find((r: Route) => {
+          return url === r.path;
+        });
+        let routeName = (<Function>route.component).name
+          .split('Component')[0]
+          .replace(/([A-Z])/g, ' $1');
+        console.log('route:', routeName);
+        this.header = routeName;
+        console.log('navigation start:', url);
         if (!this.user && e.url !== '/login') {
           this.router.navigate(['/login']);
         }
