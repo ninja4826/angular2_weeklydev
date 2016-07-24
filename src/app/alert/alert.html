@@ -1,0 +1,6 @@
+<div #alertElement [id]="id" *ngIf="showAlert" class="alert alert-{{ context }}" role="alert" [class.fade]="hasFade" [class.in]="hasFade" [class.alert-fixed]="fixed">
+  <button *ngIf="dismissable" (click)="close()" type="button" class="close" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <ng-content></ng-content>
+</div>
