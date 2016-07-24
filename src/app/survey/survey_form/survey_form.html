@@ -1,0 +1,45 @@
+<div class="checkbox">
+  <label>
+    <input [(ngModel)]="frontend" type="checkbox" value="">Frontend
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input [(ngModel)]="backend" type="checkbox" value="">Backend
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input [(ngModel)]="manager" type="checkbox" value="">Manager
+  </label>
+</div>
+<div class="form-group">
+  <label for="skill_level">Skill Level</label>
+  <!--<div class="input-group" style="width:150px;">-->
+  <!--  <span class="input-group-btn">-->
+  <!--    <button [disabled]="survey.skill_level <= 1" (click)="counter('skill_level', false)" type="button" class="btn btn-danger btn-number">-->
+  <!--      <span class="glyphicon glyphicon-minus"></span>-->
+  <!--    </button>-->
+  <!--  </span>-->
+  <!--  <input [disabled]="true" [value]="survey.skill_level" type="text" name="skill_level" class="form-control input-number" style="text-align:center;">-->
+  <!--  <span class="input-group-btn">-->
+  <!--    <button [disabled]="survey.skill_level >= 5" (click)="counter('skill_level', true)" type="button" class="btn btn-success btn-number">-->
+  <!--      <span class="glyphicon glyphicon-plus"></span>-->
+  <!--    </button>-->
+  <!--  </span>-->
+  <!--</div>-->
+  <counter [(value)]="survey.skill_level" [min]="0" [max]="5"></counter>
+</div>
+<div class="form-group">
+  <label for="project_size">Project Size</label>
+  <!--<select [(ngModel)]="project_size" class="form-control">-->
+  <!--  <option *ngFor="let n of range(3,5)" [value]="n">{{ n }}</option>-->
+  <!--</select>-->
+  <counter [(value)]="survey.project_size" [min]="3" [max]="5"></counter>
+</div>
+<div class="form-group">
+  <label for="timezone">Timezone</label>
+  <counter [(value)]="survey.timezone" [min]="-12" [max]="12">
+    <!--{{ survey.timezone | positive:'UTC' }}-->
+  </counter>
+</div>
