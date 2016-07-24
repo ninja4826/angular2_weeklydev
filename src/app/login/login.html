@@ -1,15 +1,6 @@
-<h4 *ngIf="signupMode">Signup</h4>
-<div *ngIf="!signupMode" class="form-group">
+<div class="form-group">
   <label for="username">Username/Email</label>
   <input [(ngModel)]="username" name="email" type="text" class="form-control" placeholder="Username/Email">
-</div>
-<div *ngIf="signupMode" class="form-group">
-  <label *ngIf="signupMode" for="username">Username</label>
-  <input [(ngModel)]="username" name="email" type="text" class="form-control" placeholder="Username">
-</div>
-<div *ngIf="signupMode" class="form-group">
-  <label for="email">Email</label>
-  <input [(ngModel)]="email" name="email" type="email" class="form-control" placeholder="Email">
 </div>
 <div class="form-group">
   <label for="password">Password</label>
@@ -17,6 +8,4 @@
 </div>
 
 <button *ngIf="!signupMode" type="button" class="btn btn-success" (click)="doLogin()">Login</button>
-<button *ngIf="!signupMode" type="button" class="btn btn-success" (click)="signupMode = true">Signup</button>
-<button *ngIf="signupMode" type="button" class="btn btn-success" (click)="doSignup()">Submit</button>
-<button *ngIf="signupMode" type="button" class="btn btn-danger" (click)="signupMode = false">Cancel</button>
+<button *ngIf="!signupMode" type="button" class="btn btn-success" (click)="goToSignup()">Signup</button>

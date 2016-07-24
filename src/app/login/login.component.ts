@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppService } from '../app.service';
 import { UserService, User } from '../user';
 
@@ -7,6 +8,7 @@ import { UserService, User } from '../user';
   template: require('./login.html')
 })
 export class LoginComponent {
+  router: Router;
   appService: AppService;
   userService: UserService;
   user: User;
@@ -17,7 +19,8 @@ export class LoginComponent {
   
   signupMode: boolean = false;
   
-  constructor(appService: AppService, userService: UserService) {
+  constructor(router: Router, appService: AppService, userService: UserService) {
+    this.router = router;
     this.appService = appService;
     this.userService = userService;
   }
@@ -26,6 +29,7 @@ export class LoginComponent {
     this.appService.userEmitter.subscribe((user) => {
       this.user = user;
       console.log('login got user!', user);
+      this.router.navigate(['/home']);
     });
   }
   
@@ -35,15 +39,19 @@ export class LoginComponent {
     }
   }
   
-  doSignup() {
-    if (this.username &&
-      this.username !== "" &&
-      this.email &&
-      this.email !== "" &&
-      this.password &&
-      this.password !== ""
-    ) {
-      this.userService.newUser(this.username, this.email, this.password);
-    }
+  goToSignup() {
+    this.router.navigate(['/signup']);
   }
+  
+  // doSignup() {
+  //   if (this.username &&
+  //     this.username !== "" &&
+  //     this.email &&
+  //     this.email !== "" &&
+  //     this.password &&
+  //     this.password !== ""
+  //   ) {
+  //     this.userService.newUser(this.username, this.email, this.password);
+  //   }
+  // }
 }
