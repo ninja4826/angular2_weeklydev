@@ -5,6 +5,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   template: require('./counter.html')
 })
 export class CounterComponent {
+  @Input() name: string;
   @Input() value: number;
   @Input() min: number;
   @Input() max: number;
@@ -26,6 +27,7 @@ export class CounterComponent {
       this.max = Infinity;
     }
     this.val = this.value;
+    console.log(`value for ${this.name} is ${this.val}`);
   }
   
   counter(pos: boolean) {

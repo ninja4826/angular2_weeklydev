@@ -28,18 +28,18 @@
   <!--    </button>-->
   <!--  </span>-->
   <!--</div>-->
-  <counter [(value)]="survey.skill_level" [min]="0" [max]="5"></counter>
+  <counter [name]="'skill_level'" [(value)]="survey.skill_level" [min]="0" [max]="5"></counter>
 </div>
 <div class="form-group">
   <label for="project_size">Project Size</label>
   <!--<select [(ngModel)]="project_size" class="form-control">-->
   <!--  <option *ngFor="let n of range(3,5)" [value]="n">{{ n }}</option>-->
   <!--</select>-->
-  <counter [(value)]="survey.project_size" [min]="3" [max]="5"></counter>
+  <counter [name]="'project_size'" [(value)]="survey.project_size" [min]="3" [max]="5"></counter>
 </div>
 <div class="form-group">
   <label for="timezone">Timezone</label>
-  <counter [(value)]="survey.timezone" [min]="-12" [max]="12">
+  <counter [name]="'timezone'" [(value)]="survey.timezone" [min]="-12" [max]="12">
     <!--{{ survey.timezone | positive:'UTC' }}-->
   </counter>
 </div>

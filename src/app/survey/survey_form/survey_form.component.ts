@@ -21,25 +21,29 @@ export class SurveyFormComponent {
     
   }
   
-  range(first: number, last: number): number[] {
-    let arr = [];
-    for (let i = first; i <= last; i++) {
-      arr.push(i);
-    }
-    return arr;
+  ngOnInit() {
+    console.log('this survey:', this.survey);
   }
   
-  counter(prop: string, pos: boolean): void {
-    switch (prop) {
-      case 'skill_level':
-        if (pos) {
-          this.survey.skill_level++;
-        } else {
-          this.survey.skill_level--;
-        }
-        break;
-    }
-  }
+  // range(first: number, last: number): number[] {
+  //   let arr = [];
+  //   for (let i = first; i <= last; i++) {
+  //     arr.push(i);
+  //   }
+  //   return arr;
+  // }
+  
+  // counter(prop: string, pos: boolean): void {
+  //   switch (prop) {
+  //     case 'skill_level':
+  //       if (pos) {
+  //         this.survey.skill_level++;
+  //       } else {
+  //         this.survey.skill_level--;
+  //       }
+  //       break;
+  //   }
+  // }
   
   get frontend(): boolean { return this.survey.role.has('frontend'); }
   get backend(): boolean { return this.survey.role.has('backend'); }

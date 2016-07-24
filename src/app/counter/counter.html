@@ -4,7 +4,7 @@
       <span class="glyphicon glyphicon-minus"></span>
     </button>
   </span>
-  <input [disabled]="true" [value]="str" type="text" name="value" class="form-control input-number" style="text-align:center;">
+  <input [disabled]="true" [value]="str" type="text" [name]="name" class="form-control input-number" style="text-align:center;">
   <span class="input-group-btn">
     <button [disabled]="value >= max" (click)="counter(true)" type="button" class="btn btn-success btn-number">
       <span class="glyphicon glyphicon-plus"></span>

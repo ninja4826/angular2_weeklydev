@@ -39,7 +39,7 @@ export class SurveyComponent {
     });
   }
   
-  submit(survey: Survey): void {
+  submit(): void {
     this.surveyService.updateSurvey(this.survey.toObject()).subscribe((survey: Survey) => {
       this.survey = survey;
     });
