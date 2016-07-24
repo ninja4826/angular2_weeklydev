@@ -5,9 +5,9 @@ import { RouterConfig } from '@angular/router';
 
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
+import { SignupComponent } from './signup';
 import { TeamComponent } from './team';
 import { SurveyComponent } from './survey';
-// import { SignupComponent } from './signup';
 
 import { DataResolver } from './app.resolver';
 
@@ -32,9 +32,9 @@ export const routes: RouterConfig = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
   { path: 'team', component: TeamComponent },
   { path: 'survey', component: SurveyComponent },
-  // { path: 'signup', component: SignupComponent },
 ];
 
 // Async load a component using Webpack's require with es6-promise-loader and webpack `require`
