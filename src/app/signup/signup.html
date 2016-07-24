@@ -1,4 +1,4 @@
-<div class="col-lg-10">
+<div *ngIf="inSignup">
   <div class="form-group">
     <label for="username">Username</label>
     <input [(ngModel)]="username" type="text" class="form-control" placeholder="Username">
@@ -14,4 +14,13 @@
   
   <button type="button" class="btn btn-success" (click)="doSignup()">Submit</button>
   <a href="/#/login" class="btn btn-danger">Cancel</a>
+</div>
+<div *ngIf="signupDone">
+  <h5>Would you like to complete a survey to match you with a team?</h5>
+  <button type="button" class="btn btn-default" (click)="doSurvey(true)">Yes</button>
+  <button type="button" class="btn btn-default" (click)="doSurvey(false)">No</button>
+</div>
+<div *ngIf="inSurvey">
+  <survey-form [survey]="survey"></survey-form>
+  <button type="button" class="btn btn-success" (click)="doSend(true)">Submit</button>
 </div>
