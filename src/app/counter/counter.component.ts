@@ -9,7 +9,7 @@ export class CounterComponent {
   @Input() value: number;
   @Input() min: number;
   @Input() max: number;
-  @Input() replacer: string;
+  @Input() mod: any;
   
   str: string;
   
@@ -26,6 +26,13 @@ export class CounterComponent {
     if (!this.max) {
       this.max = Infinity;
     }
+    
+    if (!this.mod) {
+      this.mod = (val: number): string => {
+        return ''+val;
+      };
+    }
+    
     this.val = this.value;
     console.log(`value for ${this.name} is ${this.val}`);
   }
@@ -40,11 +47,7 @@ export class CounterComponent {
   
   get val(): number { return this.value; }
   set val(v: number) {
-    if (this.replacer) {
-      this.str = this.replacer;
-    } else {
-      this.str = ''+v;
-    }
+    this.str = this.mod(v);
     this.value = v;
     this.valueChange.next(v);
   }
