@@ -4,7 +4,12 @@
 </div>
 <div class="form-group">
   <label for="password">Password</label>
-  <input [(ngModel)]="password" name="password" type="password" class="form-control" placeholder="Password">
+  <div class="input-group">
+    <input [(ngModel)]="password" name="password" type="password" class="form-control" placeholder="Password">
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-info" (click)="resetPass()">Forgot Password</button>
+    </span>
+  </div>
 </div>
 
 <button *ngIf="!signupMode" type="button" class="btn btn-success" (click)="doLogin()">Login</button>

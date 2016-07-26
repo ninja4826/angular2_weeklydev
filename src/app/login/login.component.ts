@@ -42,4 +42,8 @@ export class LoginComponent {
   goToSignup() {
     this.router.navigate(['/signup']);
   }
+  
+  resetPass(): void {
+    console.log('Password reset has not yet been implemented.');
+  }
 }
