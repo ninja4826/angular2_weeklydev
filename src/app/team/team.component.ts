@@ -2,10 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { AppService } from '../app.service';
 import { UserService, User } from '../user';
 import { Team } from './team.service';
-console.log('team component');
-console.log('app service:', AppService);
-console.log('user service:', UserService);
-console.log('user:', User);
+
 @Component({
   selector: 'team',
   template: require('./team.html')
