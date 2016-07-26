@@ -19,6 +19,7 @@ const HMR = helpers.hasProcessFlag('hot');
 const METADATA = webpackMerge(commonConfig.metadata, {
   host: 'localhost',
   API_URL: process.env.HOSTURL,
+  ORIGIN: process.env.ORIGIN,
   port: 3000,
   ENV: ENV,
   HMR: HMR
@@ -114,6 +115,7 @@ module.exports = webpackMerge(commonConfig, {
         'NODE_ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
         'API_URL': JSON.stringify(METADATA.API_URL),
+        'ORIGIN': JSON.stringify(METADATA.ORIGIN),
       }
     }),
   ],

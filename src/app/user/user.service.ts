@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { AppService } from '../app.service';
-import { ITeam, Team, TeamService } from '../team';
+import { ITeam, Team } from '../team';
 // import { IProject, Project, ProjectService } from '../project';
 // import { IGhostTeam, GhostTeam, GhostTeamService } from '../ghostTeam';
 
@@ -12,21 +12,20 @@ export class UserService {
   private http: Http;
   private appService: AppService;
   
-  private teamService: TeamService;
+  // private teamService: TeamService;
   // private projectService: ProjectService;
   // private ghostTeamService: GhostTeamService;
   
   constructor(
     http: Http,
     appService: AppService,
-    teamService: TeamService,
+    // teamService: TeamService,
     // projectService: ProjectService,
     // ghostTeamService: GhostTeamService
   ) {
     this.http = http;
     this.appService = appService;
-    
-    this.teamService = teamService;
+    // this.teamService = teamService;
     // this.projectService = projectService;
     // this.ghostTeamService = ghostTeamService;
   }
@@ -49,6 +48,36 @@ export class UserService {
       console.log('decoded:', l);
       
       this.appService.user = new User(l.user);
+    });
+  }
+  
+  refreshUser(): void {
+    let refreshReq = this.http.get(`${this.appService.host}/users/me`, this.appService.headers(false, true));
+    refreshReq.map((res: Response) => {
+      if (!res.ok) {
+        return null;
+      }
+      return <IUser>res.json();
+    }).subscribe((_user: User) => {
+      let user = new User(_user);
+      this.appService.user = user;
+      console.log('user refreshed:', user);
+    });
+  }
+  
+  joinMatchmaking(): void {
+    console.log('do /match/join here');
+    let joinReq = this.http.get(`${this.appService.host}/match/join`, this.appService.headers(false, true));
+    joinReq.map((res: Response) => {
+      if (!res.ok) {
+        return null;
+      }
+      return res;
+    }).subscribe((res: Response) => {
+      if (res) {
+        console.log('refreshing user');
+        this.refreshUser();
+      }
     });
   }
   
@@ -80,6 +109,7 @@ export interface IUser {
   userId: string;
   email: string;
   username: string;
+  is_searching: boolean;
   access: string[];
   team: ITeam[];
   // project: IProject[];
@@ -91,6 +121,7 @@ export class User implements IUser {
   userId: string;
   email: string;
   username: string;
+  is_searching: boolean = false;
   access: string[];
   team: Team[] = [];
   // project: Project[];
@@ -102,6 +133,7 @@ export class User implements IUser {
       this.userId = user.userId;
       this.email = user.email;
       this.username = user.username;
+      this.is_searching = user.is_searching;
       this.access = user.access;
       this.team = user.team.map(t => new Team(t));
       // this.project = user.project.map(p => new Project(p));

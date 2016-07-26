@@ -5,26 +5,26 @@ import { Observable } from 'rxjs/Observable';
 import { AppService } from '../app.service';
 import { IUser, User } from '../user';
 
-@Injectable()
-export class TeamService {
-  private http: Http;
-  private appService: AppService;
+// @Injectable()
+// export class TeamService {
+//   private http: Http;
+//   private appService: AppService;
   
-  constructor(http: Http, appService: AppService) {
-    this.http = http;
-    this.appService = appService;
-  }
+//   constructor(http: Http, appService: AppService) {
+//     this.http = http;
+//     this.appService = appService;
+//   }
   
-  getTeams(teamIDs: string[]): Observable<Team[]> {
-    return Observable.create((observer) => {
-      this.http.get(`${this.appService.host}/users/me/teams`, this.appService.headers(false, true))
-        .map((res: Response) => {
-          let body = res.json();
-          let team_len = body.length;
-        });
-    });
-  }
-}
+//   getTeams(teamIDs: string[]): Observable<Team[]> {
+//     return Observable.create((observer) => {
+//       this.http.get(`${this.appService.host}/users/me/teams`, this.appService.headers(false, true))
+//         .map((res: Response) => {
+//           let body = res.json();
+//           let team_len = body.length;
+//         });
+//     });
+//   }
+// }
 
 export interface ITeam {
   owner: IUser;

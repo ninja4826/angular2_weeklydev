@@ -1,12 +1,13 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Headers, RequestOptions } from '@angular/http';
 
-import { User } from './user';
+import { User, UserService } from './user';
 
 @Injectable()
 export class AppService {
-  
+  userService: UserService;
   private _host: string = 'http://localhost:1337/v1';
+  private _origin: string = '';
   
   token: string;
   private _user: User;
@@ -19,6 +20,9 @@ export class AppService {
       this._host = `http://${process.env.API_URL}/v1`;
       // this._host = process.env.API_URL;
     }
+    if (process.env.ORIGIN) {
+      this._origin = `http://${process.env.ORIGIN}`;
+    }
     console.log('API URL:', this._host);
   }
   
@@ -26,6 +30,8 @@ export class AppService {
     if (!req) {
       req = new RequestOptions({ headers: new Headers({}) });
     }
+    
+    // req.headers.append('Access-Control-Origin', this._origin);
     
     if (json) {
       req.headers.append('Content-Type', 'application/json');
@@ -49,6 +55,7 @@ export class AppService {
     }
     this._user = v;
     this.userEmitter.emit(this._user);
+    console.log('appService: User has been set.');
     if (firstSignin) {
       this.signin.emit(null);
     }

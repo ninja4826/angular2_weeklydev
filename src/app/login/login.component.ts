@@ -14,44 +14,32 @@ export class LoginComponent {
   user: User;
   
   username: string = '';
-  email: string = '';
   password: string = '';
-  
-  signupMode: boolean = false;
   
   constructor(router: Router, appService: AppService, userService: UserService) {
     this.router = router;
     this.appService = appService;
     this.userService = userService;
+    this.appService.userService = this.userService;
   }
   
   ngOnInit() {
-    this.appService.userEmitter.subscribe((user) => {
-      this.user = user;
-      console.log('login got user!', user);
-      this.router.navigate(['/home']);
-    });
+    
   }
   
   doLogin() {
     if (this.username && this.username !== "" && this.password && this.password !== "") {
       this.userService.login(this.username, this.password);
+      this.appService.userEmitter.subscribe((user) => {
+        if (!this.user) {
+          this.router.navigate(['/home']);
+        }
+        this.user = this.appService.user;
+      });
     }
   }
   
   goToSignup() {
     this.router.navigate(['/signup']);
   }
-  
-  // doSignup() {
-  //   if (this.username &&
-  //     this.username !== "" &&
-  //     this.email &&
-  //     this.email !== "" &&
-  //     this.password &&
-  //     this.password !== ""
-  //   ) {
-  //     this.userService.newUser(this.username, this.email, this.password);
-  //   }
-  // }
 }
