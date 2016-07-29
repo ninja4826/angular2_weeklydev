@@ -29,14 +29,26 @@ export class App {
   constructor(router: Router, appService: AppService) {
     this.router = router;
     this.appService = appService;
+    console.log('cookie string:', document.cookie);
+    let obj: { [name: string]: string } = {};
+    let cookies = document.cookie.split('; ').reduce((ret, c) => {
+      let cArr = c.split('=');
+      ret[cArr[0]] = cArr[1];
+      return ret;
+    }, obj);
+    
+    console.log('cookies:', cookies);
+    
+    if ('weeklydevtoken' in cookies) {
+      this.appService.token = cookies['weeklydevtoken'];
+    }
   }
 
   ngOnInit() {
-    // this.appService.signin.subscribe(() => {
-    //   this.router.navigate(['/home']);
-    // });
-    
     this.appService.userEmitter.subscribe((user: User) => {
+      if (!this.user) {
+        this.router.navigate(['/home']);
+      }
       this.user = user;
     });
     

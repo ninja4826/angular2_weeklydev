@@ -25,6 +25,10 @@ export class UserService {
   ) {
     this.http = http;
     this.appService = appService;
+    console.log('in user service');
+    if (this.appService.token) {
+      this.refreshUser();
+    }
     // this.teamService = teamService;
     // this.projectService = projectService;
     // this.ghostTeamService = ghostTeamService;
@@ -36,7 +40,11 @@ export class UserService {
     loginReq.map(this.decodeUser).subscribe((l: LoginRes) => {
       this.appService.token = l.token;
       console.log('decoded:', l);
-      
+      let cookieStr = 'weeklydevtoken';
+      cookieStr += '='+l.token;
+      cookieStr += '; expires='+new Date(Date.now() + 31536000000).toUTCString();
+      cookieStr += '; path=/';
+      document.cookie = cookieStr;
       this.appService.user = new User(l.user);
     });
   }
@@ -85,7 +93,7 @@ export class UserService {
     if (!res.ok) {
       return null;
     }
-    
+    console.log('res headers:', res.headers);
     return <LoginRes>res.json();
   }
   

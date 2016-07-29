@@ -24,7 +24,18 @@ export class LoginComponent {
   }
   
   ngOnInit() {
+    // console.log('appService token:', this.appService.token);
+    if (this.appService.token) {
+      this.userService.refreshUser();
+      this.appService.userEmitter.subscribe((user) => {
+        if (!this.user) {
+          this.router.navigate(['/home']);
+        }
+        this.user = this.appService.user;
+      });
+    }
     
+    console.log('login init');
   }
   
   doLogin() {
