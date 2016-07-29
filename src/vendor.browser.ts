@@ -30,5 +30,4 @@ if ('production' === ENV) {
 
 }
 
-import 'socket.io-client';
 import 'bootstrap-loader';
