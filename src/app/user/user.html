@@ -1,1 +1,29 @@
 <pre>{{ user | json }}</pre>
+<div class="row">
+  <h4>Change Email</h4>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <div class="input-group">
+      <input [(ngModel)]="email" name="email" type="text" class="form-control" placeholder="Email">
+      <span class="input-group-btn">
+        <button (click)="updateEmail()" class="btn btn-success" type="button">Submit</button>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <h4>Change Password</h4>
+  <div class="form-group">
+    <label for="old-pass">Old Password</label>
+    <input [(ngModel)]="oldPass" name="old-pass" type="password" class="form-control" placeholder="Old Password">
+  </div>
+  <div class="form-group">
+    <label for="new-pass">New Password</label>
+    <div class="input-group">
+      <input [(ngModel)]="newPass" name="new-pass" type="password" class="form-control" placeholder="New Password">
+      <span class="input-group-btn">
+        <button (click)="updatePass()" class="btn btn-success" type="button">Submit</button>
+      </span>
+    </div>
+  </div>
+</div>

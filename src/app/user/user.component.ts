@@ -12,6 +12,10 @@ export class UserComponent {
   
   user: User;
   
+  email: string = '';
+  oldPass: string = '';
+  newPass: string = '';
+  
   constructor(appService: AppService, userService: UserService) {
     this.appService = appService;
     this.userService = userService;
@@ -19,9 +23,17 @@ export class UserComponent {
   
   ngOnInit() {
     this.user = this.appService.user;
-    
+    this.email = this.user.email;
     this.appService.userEmitter.subscribe((user: User) => {
       this.user = user;
     });
+  }
+  
+  updateEmail() {
+    
+  }
+  
+  updatePass() {
+    
   }
 }
