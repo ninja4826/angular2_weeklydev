@@ -1,15 +1,17 @@
 <div class="col-lg-10">
   <pre *ngIf="team">{{ team | json }}</pre>
-  <h3 *ngIf="!team">You don't have a team yet.</h3>
-  <div *ngIf="!user.is_searching">
-    <h4>You're not currently searching for a team. Would you like to?</h4>
-    <button type="button" class="btn btn-success" (click)="startSearching()">Yes please!</button>
-  </div>
-  <div *ngIf="user.is_searching">
-    <h4>Here are the teams that you are able to join:</h4>
-    <div *ngFor="let ghostTeam of user.ghostTeams">
-      <strong>GhostTeam name goes here (if they have names)</strong>
-      <button type="button" class="btn btn-success pull-right">Join Team</button>
+  <div *ngIf="!team">
+    <h3 *ngIf="!team">You don't have a team yet.</h3>
+    <div *ngIf="!user.is_searching">
+      <h4>You're not currently searching for a team. Would you like to?</h4>
+      <button type="button" class="btn btn-success" (click)="startSearching()">Yes please!</button>
+    </div>
+    <div *ngIf="user.is_searching">
+      <h4>Here are the teams that you are able to join:</h4>
+      <div *ngFor="let ghostTeam of user.ghostTeams">
+        <strong>GhostTeam name goes here (if they have names)</strong>
+        <button type="button" class="btn btn-success pull-right">Join Team</button>
+      </div>
     </div>
   </div>
 </div>
