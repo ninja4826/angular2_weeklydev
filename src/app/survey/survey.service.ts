@@ -54,7 +54,6 @@ export class SurveyService {
 
 export interface ISurvey {
   id?: string;
-  user_id?: string;
   role: string[];
   project_manager: boolean;
   skill_level: number;
@@ -64,7 +63,6 @@ export interface ISurvey {
 
 export class Survey {
   private _id: string = '';
-  private _user_id: string = '';
   private _role: Set<string> = new Set<string>();
   private _project_manager: boolean = false;
   private _skill_level: number = 0;
@@ -75,9 +73,6 @@ export class Survey {
     if (survey) {
       if (survey.id) {
         this._id = survey.id;
-      }
-      if (survey.user_id) {
-        this._user_id = survey.user_id;
       }
       console.log('survey:', survey);
       this.role = new Set<string>(survey.role);

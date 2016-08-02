@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { AppService } from '../app.service';
 import { ITeam, Team } from '../team';
+import { ISurvey, Survey } from '../survey';
 // import { IProject, Project, ProjectService } from '../project';
 // import { IGhostTeam, GhostTeam, GhostTeamService } from '../ghostTeam';
 
@@ -120,6 +121,7 @@ export interface IUser {
   is_searching: boolean;
   access: string[];
   team: ITeam[];
+  survey: ISurvey;
   // project: IProject[];
   // ghostTeams: IGhostTeam[];
 }
@@ -132,6 +134,7 @@ export class User implements IUser {
   is_searching: boolean = false;
   access: string[];
   team: Team[] = [];
+  survey: Survey;
   // project: Project[];
   // ghostTeams: GhostTeam[];
   
@@ -144,6 +147,7 @@ export class User implements IUser {
       this.is_searching = user.is_searching;
       this.access = user.access;
       this.team = user.team.map(t => new Team(t));
+      this.survey = new Survey(user.survey);
       // this.project = user.project.map(p => new Project(p));
       // this.ghostTeams = user.ghostTeams.map(gT => new GhostTeam(gT));
     }
