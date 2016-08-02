@@ -36,9 +36,6 @@ export class SurveyService {
     if (survey.id) {
       delete survey.id;
     }
-    if (survey.user_id) {
-      delete survey.user_id;
-    }
     console.log('sending:', survey);
     return this.http.post(`${this.appService.host}/survey`, survey, this.appService.headers(true, true))
       .map((res: Response) => {
@@ -61,9 +58,10 @@ export interface ISurvey {
   timezone: number;
 }
 
-export class Survey {
+export class Survey implements ISurvey {
   private _id: string = '';
-  private _role: Set<string> = new Set<string>();
+  // private _role: Set<string> = new Set<string>();
+  private _role: string[] = [];
   private _project_manager: boolean = false;
   private _skill_level: number = 0;
   private _project_size: number = 5;
@@ -75,7 +73,8 @@ export class Survey {
         this._id = survey.id;
       }
       console.log('survey:', survey);
-      this.role = new Set<string>(survey.role);
+      // this.role = new Set<string>(survey.role);
+      this.role = survey.role;
       this.project_manager = survey.project_manager;
       this.skill_level = survey.skill_level;
       this.project_size = survey.project_size;
@@ -84,8 +83,8 @@ export class Survey {
   }
   
   get id(): string { return this._id; }
-  get user_id(): string { return this._user_id; }
-  get role(): Set<string> { return this._role; }
+  // get role(): Set<string> { return this._role; }
+  get role(): string[] { return this._role; }
   get project_manager(): boolean { return this._project_manager; }
   get skill_level(): number { return this._skill_level; }
   get project_size(): number { return this._project_size; }
@@ -94,12 +93,21 @@ export class Survey {
   set id(v: string) {}
   set user_id(v: string) {}
   
-  set role(v: Set<string>) {
-    for (let role of Array.from(v.values())) {
+  // set role(v: Set<string>) {
+  //   for (let role of Array.from(v.values())) {
+  //     if (['frontend', 'backend', 'manager'].indexOf(role) !== -1) {
+  //       this._role.add(role);
+  //     }
+  //   }
+  // }
+  set role(v: string[]) {
+    let roles: Set<string> = new Set<string>();
+    for (let role of v) {
       if (['frontend', 'backend', 'manager'].indexOf(role) !== -1) {
-        this._role.add(role);
+        roles.add(role);
       }
     }
+    this._role = Array.from(roles);
   }
   
   set project_manager(v: boolean) {
@@ -120,7 +128,7 @@ export class Survey {
   
   toObject(): ISurvey {
     let survey: ISurvey = {
-      role: Array.from(this.role),
+      role: this.role,
       project_manager: this.project_manager,
       skill_level: this.skill_level,
       project_size: this.project_size,
