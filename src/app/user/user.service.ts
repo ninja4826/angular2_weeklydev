@@ -60,6 +60,20 @@ export class UserService {
     });
   }
   
+  updateEmail(email: string): void {
+    let updateReq = this.http.put(`${this.appService.host}/users/me`, { email }, this.appService.headers(true, true));
+    updateReq.map((res: Response) => {
+      if (!res.ok) {
+        return null;
+      }
+      return <IUser>res.json();
+    }).subscribe((_user: IUser) => {
+      let user = new User(_user);
+      this.appService.user = user;
+      console.log('user updated:', user);
+    });
+  }
+  
   refreshUser(): void {
     let refreshReq = this.http.get(`${this.appService.host}/users/me`, this.appService.headers(false, true));
     refreshReq.map((res: Response) => {
@@ -67,7 +81,7 @@ export class UserService {
         return null;
       }
       return <IUser>res.json();
-    }).subscribe((_user: User) => {
+    }).subscribe((_user: IUser) => {
       let user = new User(_user);
       this.appService.user = user;
       console.log('user refreshed:', user);

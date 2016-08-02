@@ -30,7 +30,7 @@ export class UserComponent {
   }
   
   updateEmail() {
-    
+    this.userService.updateEmail(this.email);
   }
   
   updatePass() {
