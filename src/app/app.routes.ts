@@ -9,6 +9,8 @@ import { SignupComponent } from './signup';
 import { UserComponent } from './user';
 import { TeamComponent } from './team';
 import { SurveyComponent } from './survey';
+import { ProjectComponent } from './project';
+import { ProjectsComponent } from './projects';
 
 import { DataResolver } from './app.resolver';
 
@@ -37,6 +39,8 @@ export const routes: RouterConfig = [
   { path: 'account', component: UserComponent },
   { path: 'team', component: TeamComponent },
   { path: 'survey', component: SurveyComponent },
+  { path: 'projects', component: ProjectsComponent },
+  { path: 'project/:id', component: ProjectComponent },
 ];
 
 // Async load a component using Webpack's require with es6-promise-loader and webpack `require`

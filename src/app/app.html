@@ -19,6 +19,9 @@
           <li>
             <a routerLink="/survey">Survey</a>
           </li>
+          <li>
+            <a routerLink="/projects">Projects</a>
+          </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li *ngIf="!user">
@@ -48,7 +51,7 @@
   <div class="row">
     <div class="col-lg-1"></div>
     <div class="col-lg-10">
-      <h3>{{ header }}</h3>
+      <!--<h3>{{ header }}</h3>-->
       <router-outlet></router-outlet>
     </div>
     <div class="col-lg-1"></div>

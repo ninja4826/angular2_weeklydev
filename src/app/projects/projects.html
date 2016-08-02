@@ -1,0 +1,12 @@
+<h3>Projects</h3>
+<p>Here you can view the list of available projects</p>
+<div class="row">
+  <div class="list-group">
+    <a *ngFor="let proj of projects" class="list-group-item" routerLink="/project/{{ proj.id }}">
+      {{ proj.title }}
+    </a>
+    <button *ngFor="let proj of projects" (click)="goToProject(proj.id)" type="button" class="list-group-item">
+      {{ proj.title }}
+    </button>
+  </div>
+</div>
